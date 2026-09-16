@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,17 +67,14 @@ namespace _3ИСИП_424
                         Console.WriteLine($"Сум. Знач.: {sum}");
                         break;
                     case 3:
-                        int min1 = 1000;
                         List<int> hz = new List<int>();
                         foreach (var gg in oper)
                         {
                             hz.Add(gg.Key);
                         }
-                        Dictionary<int, string> oper1 = new Dictionary<int, string>();
-                        for (int i = 0; i < s - 1; i++)
+                        for (int i = 0; i < hz.Count - 1; i++)
                         {
-
-                            for (int j = 0; j < s - i - 1; j++)
+                            for (int j = 0; j < hz.Count - i - 1; j++)
                             {
                                 if (hz[j] > hz[j + 1])
                                 {
@@ -86,25 +84,64 @@ namespace _3ИСИП_424
                                 }
                             }
                         }
-                        for (int i = 0; i < s - 1; i++)
+
+                        Dictionary<int, string> oper1 = new Dictionary<int, string>();
+                        for (int i = 0; i < hz.Count; i++)
                         {
-                            string gf;
-                            if (oper.TryGetValue(hz[i], out gf))
-                                oper1.Add(hz[i], gf);
+                            oper1.Add(hz[i], oper[hz[i]]);
                         }
-                            break;
-                        case 4:
-
-                                break;
-                            case 5:
-                                break;
-                            default:
-                                break;
+                        oper = oper1;
+                        Console.WriteLine("Отсортировано.");
+                        break;
+                    case 4:
+                        Console.WriteLine("Выберите валюту:");
+                        Console.WriteLine("1. USD");
+                        Console.WriteLine("2. EUR");
+                        Console.WriteLine("3. CNY");
+                        Console.WriteLine("4. Свой курс");
+                        int cur = Convert.ToInt32(Console.ReadLine());
+                        double rate = 0;
+                        string curName = "";
+                        if (cur == 1) { rate = 90; curName = "USD"; }
+                        else if (cur == 2) { rate = 100; curName = "EUR"; }
+                        else if (cur == 3) { rate = 12.5; curName = "CNY"; }
+                        else if (cur == 4)
+                        {
+                            Console.Write("Введите курс: ");
+                            rate = Convert.ToDouble(Console.ReadLine());
+                            Console.Write("Введите название валюты: ");
+                            curName = Console.ReadLine();
+                        }
+                        if (rate > 0)
+                        {
+                            foreach (var person in oper)
+                            {
+                                Console.WriteLine($"{person.Value} — {(person.Key / rate):F2} {curName}");
                             }
+                        }
+                        break;
+                    case 5:
+                        Console.Write("Введите название для поиска: ");
+                        string search = Console.ReadLine().ToLower();
 
-                        } while (w != 0) ;
+                        bool found = false;
+                        foreach (var person in oper)
+                        {
+                            if (person.Value.ToLower().Contains(search))
+                            {
+                                Console.WriteLine($"{person.Value} — {person.Key} руб.");
+                                found = true;
+                            }
+                        }
+                        if (!found) Console.WriteLine("Ничего не найдено.");
+                        break;
+                    default:
+                        Console.WriteLine("Такой команды нет.");
+                        break;
                 }
 
-            }
+            } while (w != 0);
+        }
+
+    }
 }
-   
