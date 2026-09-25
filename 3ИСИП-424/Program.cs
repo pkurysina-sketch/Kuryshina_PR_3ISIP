@@ -11,6 +11,7 @@ namespace _3ИСИП_424
         static void Main(string[] args)
         {
             int e = -1;
+            string line = "";
             do
             {
                 Console.WriteLine("Выберите операцию: ");
@@ -29,11 +30,45 @@ namespace _3ИСИП_424
                 {
                     case 1:
                         Console.WriteLine("Введите строку (не меньше 100 символов)");
-                        string line = Console.ReadLine();
+                        line = Console.ReadLine();
                         if (line.Length < 101)
                         {
                             Console.WriteLine("Ошибка ваша страка слишком маленькая!(меньше 100 символов) Введите строку заново!");
                             line = " ";
+                        }
+                        break;
+                    case 2:
+                        char[] separators = { ' ', '.', ',', '!', '?', ';', ':', '-', '\n', '\r', '\t' };
+                        string[] words = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                        Console.WriteLine($"Количество слов: {words.Length}");
+                        break;
+                    case 3:
+                        char[] sep3 = { ' ', '.', ',', '!', '?', ';', ':', '-', '\n', '\r', '\t' };
+                        string[] words3 = line.Split(sep3, StringSplitOptions.RemoveEmptyEntries);
+                        if (words3.Length > 0)
+                        {
+                            string shortest = words3[0];
+                            foreach (string w in words3)
+                                if (w.Length < shortest.Length) shortest = w;
+                            Console.WriteLine($"Самое короткое слово: '{shortest}' ({shortest.Length} симв.)");
+                        }
+                        break;
+                    case 4:
+                        char[] sep4 = { '.', '!', '?'};
+                        string[] sentence = line.Split(sep4, StringSplitOptions.RemoveEmptyEntries);
+                        Console.WriteLine($"Количество предложений: {sentence.Length}");
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        char[] sep6 = { ' ', '.', ',', '!', '?', ';', ':', '-', '\n', '\r', '\t' };
+                        string[] words6 = line.Split(sep6, StringSplitOptions.RemoveEmptyEntries);
+                        if (words6.Length > 0)
+                        {
+                            string longest = words6[0];
+                            foreach (string w in words6)
+                                if (w.Length > longest.Length) longest = w;
+                            Console.WriteLine($"Самое длинное слово: '{longest}' ({longest.Length} симв.)");
                         }
                         break;
                 }
