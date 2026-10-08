@@ -91,7 +91,7 @@ namespace _3ИСИП_424
 
         public class Course
         {
-            private static int courseIdCounter = 1;
+            private static int courseIdCounter = 100;
 
             public int Id { get; private set; }
             public string Title { get; private set; }
@@ -137,31 +137,31 @@ namespace _3ИСИП_424
             }
         }
 
-        // --- 3. УПРАВЛЕНИЕ СИСТЕМОЙ (LINQ) ---
+        // 3. УПРАВЛЕНИЕ СИСТЕМОЙ (LINQ)
 
         public class University
         {
-            private List<Student> _students = new List<Student>();
-            private List<Teacher> _teachers = new List<Teacher>();
-            private List<Course> _courses = new List<Course>();
+            private List<Student> students = new List<Student>();
+            private List<Teacher> teachers = new List<Teacher>();
+            private List<Course> courses = new List<Course>();
 
             // Методы добавления
-            public void AddStudent(Student s) => _students.Add(s);
-            public void AddTeacher(Teacher t) => _teachers.Add(t);
-            public void AddCourse(Course c) => _courses.Add(c);
+            public void AddStudent(Student s) => students.Add(s);
+            public void AddTeacher(Teacher t) => teachers.Add(t);
+            public void AddCourse(Course c) => courses.Add(c);
 
             // Методы получения списков (для меню)
-            public IReadOnlyList<Student> GetAllStudents() => _students.AsReadOnly();
-            public IReadOnlyList<Teacher> GetAllTeachers() => _teachers.AsReadOnly();
-            public IReadOnlyList<Course> GetAllCourses() => _courses.AsReadOnly();
+            public IReadOnlyList<Student> GetAllStudents() => students.AsReadOnly();
+            public IReadOnlyList<Teacher> GetAllTeachers() => teachers.AsReadOnly();
+            public IReadOnlyList<Course> GetAllCourses() => courses.AsReadOnly();
 
             // Поиск по ID (LINQ)
-            public Student FindStudentById(int id) => _students.FirstOrDefault(s => s.Id == id);
-            public Teacher FindTeacherById(int id) => _teachers.FirstOrDefault(t => t.Id == id);
-            public Course FindCourseById(int id) => _courses.FirstOrDefault(c => c.Id == id);
+            public Student FindStudentById(int id) => students.FirstOrDefault(s => s.Id == id);
+            public Teacher FindTeacherById(int id) => teachers.FirstOrDefault(t => t.Id == id);
+            public Course FindCourseById(int id) => courses.FirstOrDefault(c => c.Id == id);
         }
 
-        // --- 4. ГЛАВНОЕ МЕНЮ И ВАЛИДАЦИЯ ---
+        // 4. ГЛАВНОЕ МЕНЮ И ВАЛИДАЦИЯ
 
         class Program
         {
@@ -175,20 +175,17 @@ namespace _3ИСИП_424
                 while (true)
                 {
                     Console.Clear();
-                    Console.WriteLine("========================================");
-                    Console.WriteLine("   СИСТЕМА УПРАВЛЕНИЯ УНИВЕРСИТЕТОМ");
-                    Console.WriteLine("========================================");
-                    Console.WriteLine("1. Добавить студента");
-                    Console.WriteLine("2. Добавить преподавателя");
-                    Console.WriteLine("3. Создать курс");
-                    Console.WriteLine("4. Записать студента на курс");
-                    Console.WriteLine("5. Назначить преподавателя на курс");
-                    Console.WriteLine("6. Просмотр всех студентов");
-                    Console.WriteLine("7. Просмотр всех преподавателей");
-                    Console.WriteLine("8. Просмотр всех курсов");
-                    Console.WriteLine("9. Детали курса (список студентов)");
-                    Console.WriteLine("0. Выход");
-                    Console.WriteLine("========================================");
+                    Console.WriteLine("СИСТЕМА УПРАВЛЕНИЯ УНИВЕРСИТЕТОМ");
+                    Console.WriteLine("1. Добавить студента;");
+                    Console.WriteLine("2. Добавить преподавателя;");
+                    Console.WriteLine("3. Создать курс;");
+                    Console.WriteLine("4. Записать студента на курс;");
+                    Console.WriteLine("5. Назначить преподавателя на курс;");
+                    Console.WriteLine("6. Просмотр всех студентов;");
+                    Console.WriteLine("7. Просмотр всех преподавателей;");
+                    Console.WriteLine("8. Просмотр всех курсов;");
+                    Console.WriteLine("9. Детали курса (список студентов);");
+                    Console.WriteLine("0. Выход.");
                     Console.Write("Выберите действие: ");
 
                     string choice = Console.ReadLine();
@@ -213,15 +210,14 @@ namespace _3ИСИП_424
                     catch (Exception ex)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"\nОШИБКА: {ex.Message}");
-                        Console.ResetColor();
+                        Console.WriteLine($"ОШИБКА: {ex.Message}");
                         Console.WriteLine("Нажмите любую клавишу для продолжения...");
                         Console.ReadKey();
                     }
                 }
             }
 
-            // --- Вспомогательные методы для ввода с валидацией ---
+            // Вспомогательные методы для ввода с валидацией
 
             static string GetValidString(string prompt)
             {
@@ -247,11 +243,11 @@ namespace _3ИСИП_424
                 }
             }
 
-            // --- Логика меню ---
+            // Логика меню
 
             static void AddStudentMenu()
             {
-                Console.WriteLine("\n--- Добавление студента ---");
+                Console.WriteLine("Добавление студента");
                 string name = GetValidString("Введите имя: ");
                 int age = GetValidInt("Введите возраст (16-100): ", 16, 100);
                 string email = GetValidString("Введите email: ");
@@ -264,7 +260,7 @@ namespace _3ИСИП_424
 
             static void AddTeacherMenu()
             {
-                Console.WriteLine("\n--- Добавление преподавателя ---");
+                Console.WriteLine("Добавление преподавателя");
                 string name = GetValidString("Введите имя: ");
                 int age = GetValidInt("Введите возраст (21-100): ", 21, 100);
                 string email = GetValidString("Введите email: ");
@@ -278,7 +274,7 @@ namespace _3ИСИП_424
 
             static void CreateCourseMenu()
             {
-                Console.WriteLine("\n--- Создание курса ---");
+                Console.WriteLine("Создание курса");
                 string title = GetValidString("Введите название курса: ");
                 int credits = GetValidInt("Введите количество кредитов (1-10): ", 1, 10);
 
@@ -290,7 +286,7 @@ namespace _3ИСИП_424
 
             static void EnrollStudentMenu()
             {
-                Console.WriteLine("\n--- Запись на курс ---");
+                Console.WriteLine("Запись на курс");
                 int studentId = GetValidInt("Введите ID студента: ", 1, int.MaxValue);
                 var student = university.FindStudentById(studentId);
                 if (student == null) { Console.WriteLine("Студент не найден."); Pause(); return; }
@@ -306,7 +302,7 @@ namespace _3ИСИП_424
 
             static void AssignTeacherMenu()
             {
-                Console.WriteLine("\n--- Назначение преподавателя ---");
+                Console.WriteLine("Назначение преподавателя");
                 int teacherId = GetValidInt("Введите ID преподавателя: ", 1, int.MaxValue);
                 var teacher = university.FindTeacherById(teacherId);
                 if (teacher == null) { Console.WriteLine("Преподаватель не найден."); Pause(); return; }
@@ -322,7 +318,7 @@ namespace _3ИСИП_424
 
             static void ShowAllStudents()
             {
-                Console.WriteLine("\n--- Все студенты ---");
+                Console.WriteLine("Все студенты");
                 var students = university.GetAllStudents();
                 if (!students.Any()) Console.WriteLine("Список пуст.");
                 foreach (var s in students)
@@ -335,7 +331,7 @@ namespace _3ИСИП_424
 
             static void ShowAllTeachers()
             {
-                Console.WriteLine("\n--- Все преподаватели ---");
+                Console.WriteLine("Все преподаватели");
                 var teachers = university.GetAllTeachers();
                 if (!teachers.Any()) Console.WriteLine("Список пуст.");
                 foreach (var t in teachers)
@@ -347,7 +343,7 @@ namespace _3ИСИП_424
 
             static void ShowAllCourses()
             {
-                Console.WriteLine("\n--- Все курсы ---");
+                Console.WriteLine("Все курсы");
                 var courses = university.GetAllCourses();
                 if (!courses.Any()) Console.WriteLine("Список пуст.");
                 foreach (var c in courses)
@@ -359,7 +355,7 @@ namespace _3ИСИП_424
 
             static void ShowCourseDetails()
             {
-                Console.WriteLine("\n--- Детали курса ---");
+                Console.WriteLine("Детали курса");
                 int courseId = GetValidInt("Введите ID курса: ", 100, int.MaxValue);
                 var course = university.FindCourseById(courseId);
 
