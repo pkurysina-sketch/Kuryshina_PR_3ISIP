@@ -121,7 +121,6 @@ namespace _3ИСИП_424
                 Teacher = teacher;
                 teacher.AssignToCourse(this); // Обратная связь
             }
-
             public void AddStudent(Student student)
             {
                 if (!students.Contains(student))
@@ -361,19 +360,19 @@ namespace _3ИСИП_424
 
                 if (course == null) { Console.WriteLine("Курс не найден."); Pause(); return; }
 
-                Console.WriteLine($"\nКурс: {course.Title}");
+                Console.WriteLine($"Курс: {course.Title}");
                 Console.WriteLine($"Преподаватель: {(course.Teacher != null ? course.Teacher.Name : "Не назначен")}");
                 Console.WriteLine("Список студентов:");
 
                 if (course.Students.Count == 0)
                 {
-                    Console.WriteLine("  (Нет записанных студентов)");
+                    Console.WriteLine(" Нет записанных студентов");
                 }
                 else
                 {
                     foreach (var s in course.Students)
                     {
-                        Console.WriteLine($"  - ID: {s.Id}, Имя: {s.Name}");
+                        Console.WriteLine($" ID: {s.Id}, Имя: {s.Name}");
                     }
                 }
                 Pause();
@@ -381,7 +380,7 @@ namespace _3ИСИП_424
 
             static void Pause()
             {
-                Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+                Console.WriteLine("Нажмите любую клавишу для возврата в меню...");
                 Console.ReadKey();
             }
 
