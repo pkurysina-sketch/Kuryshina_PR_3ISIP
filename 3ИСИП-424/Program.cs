@@ -150,10 +150,11 @@ namespace _3ИСИП_424
                 var result = base.Attack(target);
                 return result;
             }
-        }
+        
         public int GetDamageIgnoringArmor()
         {
             return AttackPower;
+        }
         }
         public class Mage : Enemy
         {
