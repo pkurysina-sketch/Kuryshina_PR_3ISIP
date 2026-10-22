@@ -103,17 +103,14 @@ namespace _3ИСИП_424
             if (rnd.Next(100) < 40)
             {
                 Console.WriteLine("Вы успешно уклонились от атаки!");
-                return 0; // Урон 0
+                return -1; // -1 = сигнал "полное уклонение"
             }
-            else
-            {
-                // Блок: уменьшение урона на 70-100% от характеристики защиты
-                int defenseValue = EquippedArmor != null ? EquippedArmor.Defense : 0;
-                double reductionPercent = rnd.Next(70, 101) / 100.0;
-                int blockedAmount = (int)(defenseValue * reductionPercent);
-                Console.WriteLine($"Вы заблокировали часть урона ({blockedAmount}).");
-                return blockedAmount; // Возвращаем величину, на которую снизится урон
-            }
+
+            int defenseValue = EquippedArmor?.Defense ?? 0;
+            double reductionPercent = rnd.Next(70, 101) / 100.0;
+            int blockedAmount = (int)(defenseValue * reductionPercent);
+            Console.WriteLine($"Вы заблокировали часть урона ({blockedAmount}).");
+            return blockedAmount;
         }
     }
 
@@ -225,8 +222,7 @@ namespace _3ИСИП_424
         public override AttackResult Attack(Player target)
         {
             var result = base.Attack(target);
-            // Базовый шанс крита у гоблина был 25%, добавляем 10% -> 35% (уже учтено в логике базового гоблина, 
-            // но для чистоты можно переопределить. Здесь оставим логику базового, так как он уже критует).
+            // Базовый шанс крита у гоблина был 25%, добавляем 10% -> 35%
             return result;
         }
     }
@@ -241,7 +237,6 @@ namespace _3ИСИП_424
             AttackPower = (int)(12 * 1.3);
             Defense = (int)(5 * 1.4);
         }
-        // Наследует игнор брони от обычного скелета
     }
     // 3. Архимаг C++ (Мар) - х1.8 HP, x1.6 Атака, x1.1 Защита, +10% заморозка
     public class MageBoss : Mage
@@ -257,9 +252,6 @@ namespace _3ИСИП_424
         public override AttackResult Attack(Player target)
         {
             var result = base.Attack(target);
-            // У базового мага 30%, у босса +10% = 40%. 
-            // Так как base.Attack уже проверил шанс, нам нужно переопределить логику для точности.
-            // Для упрощения оставим базовую логику, но добавим еще один ролл на 10% шанс.
             if (!result.ApplyFreeze && new Random().Next(100) < 10)
             {
                 result.ApplyFreeze = true;
@@ -268,9 +260,6 @@ namespace _3ИСИП_424
             return result;
         }
     }
-    // 4. Пестов (Скелет) - х1.3 HP, x1.8 Атака, x0.6 Защита, +15% заморозка
-    // В задании сказано "Пестов (раса Скелет)", но характеристики заморозки. 
-    // Вероятно, это гибрид. Сделаем его наследником Скелета, но с логикой мага.
     public class PestovBoss : Skeleton
     {
         public PestovBoss()
@@ -429,31 +418,21 @@ namespace _3ИСИП_424
                     if (choice == "1")
                     {
                         int dmg = player.GetAttackDamage();
-                        // Крит игрока (можно добавить шанс, но в задании не указан, оставим просто урон)
+                        // Крит игрока
                         enemy.TakeDamage(dmg);
                     }
                     else if (choice == "2")
                     {
-                        // Игрок защищается. В следующей атаке врага будет применен блок.
-                        // Логика защиты реализуется перед атакой врага.
+                        // Игрок защищается. 
                         Console.WriteLine("Вы готовитесь к защите...");
                         int blocked = player.Defend(); // Возвращает 0 при уклонении или величину блока
 
-                        if (blocked == 0 && rnd.Next(100) < 40) // Если сработало уклонение (упрощенно)
+                        if (blocked == 0 && rnd.Next(100) < 40)
                         {
-                            // Уклонение уже обработано в Defend(), пропускаем атаку врага
                             continue;
                         }
                         else
                         {
-                            // Если блок, то уменьшаем урон следующей атаки
-                            // (Для простоты реализации передадим это значение в следующий шаг)
-                            // В данном коде мы просто вычтем blocked из урона врага при его атаке.
-                            // Но так как ход врага идет сразу, сохраним значение.
-                            // Упростим: Defend() возвращает урон, который будет поглощен.
-                            // Но в текущей структуре проще сделать так:
-                            // Если игрок выбрал защиту, мы применяем логику внутри атаки врага.
-                            // Поэтому просто запомним, что игрок в защите.
                             playerDefending = true;
                         }
                     }
@@ -466,22 +445,11 @@ namespace _3ИСИП_424
                 // Если игрок защищался
                 if (playerDefending)
                 {
-                    // Проверка уклонения (40%)
-                    if (rnd.Next(100) < 40)
-                    {
-                        Console.WriteLine("Вы уклонились!");
-                        finalDamage = 0;
-                    }
+                    int block = player.Defend();
+                    if (block < 0)
+                        finalDamage = 0; // уклонение
                     else
-                    {
-                        // Блок 70-100% от защиты
-                        int def = player.EquippedArmor.Defense;
-                        double blockPercent = rnd.Next(70, 101) / 100.0;
-                        int blockAmount = (int)(def * blockPercent);
-                        finalDamage = Math.Max(0, finalDamage - blockAmount);
-                        Console.WriteLine($"Вы заблокировали {blockAmount} урона.");
-                    }
-                    playerDefending = false; // Сбрасываем флаг
+                        finalDamage = Math.Max(0, finalDamage - block);
                 }
                 if (finalDamage > 0)
                 {
