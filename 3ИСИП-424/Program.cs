@@ -52,7 +52,7 @@ namespace _3ИСИП_424
             Name = name;
             maxHP = hp;
             HP = hp;
-            EquippedWeapon = new Sword("Кулаки", 15); // Базовое оружие
+            EquippedWeapon = new Sword("Кулаки", 150); // Базовое оружие
             EquippedArmor = new Shield("Одежда", 5); // Базовая броня
         }
 
