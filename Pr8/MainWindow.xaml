@@ -1,75 +1,11 @@
-﻿<Window x:Class="Car.MainWindow"
+﻿<Window x:Class="CarConfigurator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Конфигуратор автомобиля" Height="650" Width="600" 
+        Title="Конфигуратор автомобиля"
+        Height="650" Width="600"
         WindowStartupLocation="CenterScreen">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
-        <TextBlock x:Name="StepText" Grid.Row="0" Text="Шаг 1 из 4" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
-        <ProgressBar x:Name="Progress" Grid.Row="0" Value="1" Maximum="4" Height="10" Margin="0,30,0,0"/>
-
-        <Grid Grid.Row="1" Margin="0,20,0,0">
-
-            <StackPanel x:Name="Step1Panel" Visibility="Visible">
-                <TextBlock Text="Модель:" FontWeight="Bold"/>
-                <ComboBox x:Name="ComboModel" SelectionChanged="ComboModel_SelectionChanged" Margin="0,5,0,15"/>
-
-                <TextBlock Text="Двигатель:" FontWeight="Bold"/>
-                <ComboBox x:Name="ComboEngine" Margin="0,5,0,15"/>
-
-                <TextBlock Text="Цвет:" FontWeight="Bold"/>
-                <ComboBox x:Name="ComboColor" Margin="0,5,0,15"/>
-
-                <TextBlock Text="Опции:" FontWeight="Bold" Margin="0,10,0,0"/>
-                <StackPanel Margin="0,5,0,0">
-                    <CheckBox x:Name="ChkLeather" Content="Кожаный салон (+80 000)" Margin="0,2,0,2"/>
-                    <CheckBox x:Name="ChkPanorama" Content="Панорама (+60 000)" Margin="0,2,0,2"/>
-                </StackPanel>
-            </StackPanel>
-
-            <StackPanel x:Name="Step2Panel" Visibility="Collapsed">
-                <TextBlock Text="Итоговая стоимость:" FontSize="18"/>
-                <TextBlock x:Name="PriceText" FontSize="30" FontWeight="Bold" Margin="0,5,0,20"/>
-                <TextBlock x:Name="DetailsText" FontSize="14"/>
-            </StackPanel>
-
-            <StackPanel x:Name="Step3Panel" Visibility="Collapsed">
-                <TextBlock Text="Первоначальный взнос: 20%" x:Name="DownPaymentLabel" FontWeight="Bold"/>
-                <Slider x:Name="SliderDownPayment" Minimum="10" Maximum="90" Value="20" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="LoanChanged" Margin="0,5,0,20"/>
-
-                <TextBlock Text="Срок (мес): 60" x:Name="TermLabel" FontWeight="Bold"/>
-                <Slider x:Name="SliderTerm" Minimum="12" Maximum="96" Value="60" TickFrequency="12" IsSnapToTickEnabled="True" ValueChanged="LoanChanged" Margin="0,5,0,20"/>
-
-                <Separator Margin="0,10"/>
-                <TextBlock x:Name="LoanResultText" FontSize="16" FontWeight="Bold" Margin="0,10,0,0"/>
-            </StackPanel>
-
-            <StackPanel x:Name="Step4Panel" Visibility="Collapsed">
-                <TextBlock Text="Имя (мин. 2 символа):"/>
-                <TextBox x:Name="TxtName" Margin="0,0,0,10" TextChanged="CheckValidation"/>
-
-                <TextBlock Text="Телефон (только цифры):"/>
-                <TextBox x:Name="TxtPhone" Margin="0,0,0,10" TextChanged="CheckValidation"/>
-
-                <TextBlock Text="Email (содержит @):"/>
-                <TextBox x:Name="TxtEmail" Margin="0,0,0,20" TextChanged="CheckValidation"/>
-
-                <Button x:Name="BtnSubmit" Content="Оформить заявку" IsEnabled="False" Padding="10,5" Click="BtnSubmit_Click" HorizontalAlignment="Left"/>
-
-                <GroupBox Header="Итоговая сводка" Margin="0,20,0,0" Height="99">
-                    <TextBlock x:Name="SummaryText" Margin="5" FontWeight="Bold"/>
-                </GroupBox>
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="2" Margin="0,20,0,0">
-            <Button Content="Назад" HorizontalAlignment="Left" Width="100" Padding="5" Click="BtnBack_Click"/>
-            <Button Content="Далее" HorizontalAlignment="Right" Width="100" Padding="5" Click="BtnNext_Click"/>
-        </Grid>
-    </Grid>
+    <Frame x:Name="MainFrame"
+           Source="Services/Page1.xaml"
+           NavigationUIVisibility="Hidden"/>
 </Window>
-
